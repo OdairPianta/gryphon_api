@@ -1,0 +1,41 @@
+version: '3.4'
+services: 
+  go_gryphon_api:
+    build:
+      dockerfile: ./docker/goapp.Dockerfile
+      context: .
+    image: golang
+    container_name: go_gryphon_api
+    # restart: always
+    ports:
+      - "8083:8083"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_TCP_PORT: ${DB_PORT}
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    expose:
+      - '${DB_PORT}'
+    volumes:
+      - my-db:/var/lib/mysql
+    healthcheck:
+          test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+          timeout: 20s
+          retries: 10
+
+volumes:
+  my-db:

@@ -1,0 +1,561 @@
+basePath: /api
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.APIError:
+    properties:
+      message:
+        type: string
+    type: object
+  models.APIStatus:
+    properties:
+      client_status:
+        type: string
+    type: object
+  models.Image:
+    properties:
+      public_url:
+        type: string
+    type: object
+  models.User:
+    properties:
+      aws_access_key_id:
+        type: string
+      aws_region:
+        type: string
+      aws_secret_access_key:
+        type: string
+      created_at:
+        type: string
+      deleted_at:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      email_verified_at:
+        type: string
+      fcm_token:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      remember_token:
+        type: string
+      reset_password_token:
+        type: string
+      token:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  requests.CreateBase64ImageInput:
+    properties:
+      base64:
+        type: string
+      extension:
+        type: string
+    required:
+    - base64
+    - extension
+    type: object
+  requests.CreateUserInput:
+    properties:
+      email:
+        type: string
+      fcm_token:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      remember_token:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  requests.ForgotPasswordInput:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  requests.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  requests.RecoverPasswordInput:
+    properties:
+      password:
+        type: string
+      reset_password_token:
+        type: string
+    required:
+    - password
+    - reset_password_token
+    type: object
+  requests.UpdateUserFcmTokenInput:
+    properties:
+      fcm_token:
+        type: string
+    required:
+    - fcm_token
+    type: object
+  requests.UpdateUserInput:
+    properties:
+      email:
+        type: string
+      fcm_token:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      remember_token:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8083
+info:
+  contact:
+    email: contact@spotec.app
+    name: API Support
+    url: https://spotec.app/contato/
+  description: Gryphon API is a REST API that allows send files and manage files.
+  title: Gryphon API
+  version: 0.1.1
+paths:
+  /forgot_password:
+    post:
+      consumes:
+      - application/json
+      description: Forgot password by json user
+      parameters:
+      - description: Forgot password
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.ForgotPasswordInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      summary: Forgot password
+      tags:
+      - users
+  /images:
+    post:
+      consumes:
+      - application/json
+      description: Add base64 image
+      parameters:
+      - description: Add image
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CreateBase64ImageInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Image'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Add base64 image
+      tags:
+      - images
+  /images/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete by image ID
+      parameters:
+      - description: ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Image'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Delete an image
+      tags:
+      - images
+    get:
+      consumes:
+      - application/json
+      description: Get image
+      parameters:
+      - description: Image ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.Image'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Get image
+      tags:
+      - images
+  /images/public_url/{public_url}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete by image public url
+      parameters:
+      - description: Public URL
+        in: path
+        name: public_url
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Delete an image by public url
+      tags:
+      - images
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Login by json user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      summary: Login an user
+      tags:
+      - users
+  /recover_password:
+    post:
+      consumes:
+      - application/json
+      description: Recover password by json user
+      parameters:
+      - description: Recover password
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RecoverPasswordInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      summary: Recover password
+      tags:
+      - users
+  /status:
+    get:
+      consumes:
+      - application/json
+      description: Get api status
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.APIStatus'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      summary: Get api status
+      tags:
+      - status
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: add by json user
+      parameters:
+      - description: Add user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CreateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Add an user
+      tags:
+      - users
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete by user ID
+      parameters:
+      - description: ID
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Delete an user
+      tags:
+      - users
+    get:
+      consumes:
+      - application/json
+      description: Get user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Get user
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update by json user
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update user
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UpdateUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Update an user
+      tags:
+      - users
+  /users/{id}/update_fcm_token:
+    put:
+      consumes:
+      - application/json
+      description: Update by json user
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Update user fcm token
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/requests.UpdateUserFcmTokenInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Update an user fcm token
+      tags:
+      - users
+securityDefinitions:
+  Bearer:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
