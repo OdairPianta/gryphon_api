@@ -36,6 +36,7 @@ func InitRoutes(r *gin.Engine) *gin.Engine {
 
 	protected.POST("/images/base64/create", controllers.CreateBase64Image)
 
+	protected.GET("users", controllers.FindUsers)
 	protected.POST("users", controllers.CreateUser)
 	protected.GET("/users/:id", controllers.FindUser)
 	protected.PUT("/users/:id", controllers.UpdateUser)

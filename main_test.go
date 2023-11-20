@@ -113,6 +113,26 @@ func TestUserLoginIsPerformedAndReturnCorrectData(t *testing.T) {
 	assert.NotEmpty(t, result["token"], "token must be not empty")
 }
 
+func TestFindUsersReturnCorrectData(t *testing.T) {
+	setupDatabase()
+	router := routesSetup()
+	_, token := initUser()
+
+	request, _ := http.NewRequest("GET", "/api/users", nil)
+	request.Header.Set("Authorization", "Bearer "+token)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	fmt.Println(recorder.Body.String())
+
+	assert.Equal(t, http.StatusOK, recorder.Code, "OK response is expected")
+
+	var result []models.User
+	_ = json.Unmarshal(recorder.Body.Bytes(), &result)
+	assert.NotNil(t, result, "response body must be a valid json")
+}
+
 func TestUserFindExistInDatabaseAndReturnCorrectData(t *testing.T) {
 	setupDatabase()
 	router := routesSetup()

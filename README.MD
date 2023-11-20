@@ -19,7 +19,7 @@
 
 
 ## How to use
-After service is working, access swagger in [http://localhost:8083/api/swagger/index.html#/users/post_login](http://localhost:8083/api/swagger/index.html#/users/post_login), click try it out, set your credentials defined in .env file and send request. Get the token and use it to send images.
+After service is working, access swagger in [http://localhost:8083/api/swagger/index.html#/users/post_login](http://localhost:8083/api/swagger/index.html#/users/post_login), click try it out, set your credentials defined in .env file and send request. Get the token, click into authorize button, write `Bearer yourtokenhere`, save and use it to send images o create new users.
 
 ## Other Commands
 - Generate API docs `swag init --parseDependency --parseInternal`

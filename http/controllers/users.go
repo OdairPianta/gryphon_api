@@ -12,6 +12,24 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// @Summary Get users
+// @Schemes
+// @Description Get users
+// @Tags users
+// @Accept json
+// @Produce json
+// @Success 200 {object} []models.User
+// @Failure 400 {object} models.APIError "Bad request"
+// @Failure 404 {object} models.APIError "Not found"
+// @Router /users [get]
+// @Security Bearer
+func FindUsers(context *gin.Context) {
+	var users []models.User
+	models.DB.Find(&users)
+
+	context.JSON(http.StatusOK, users)
+}
+
 // @Summary Get user
 // @Schemes
 // @Description Get user

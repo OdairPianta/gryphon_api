@@ -19,6 +19,7 @@
 ### Added
 - App port environment
 - USER_AWS_BUCKET environment
+- Find users function
 
 ### Changed
 - Remove not implemented functions
