@@ -27,6 +27,8 @@ definitions:
     properties:
       aws_access_key_id:
         type: string
+      aws_bucket:
+        type: string
       aws_region:
         type: string
       aws_secret_access_key:
@@ -293,6 +295,32 @@ paths:
       tags:
       - status
   /users:
+    get:
+      consumes:
+      - application/json
+      description: Get users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Get users
+      tags:
+      - users
     post:
       consumes:
       - application/json
