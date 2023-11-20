@@ -20,6 +20,7 @@
 - App port environment
 - USER_AWS_BUCKET environment
 - Find users function
+- Resize image options
 
 ### Changed
 - Remove not implemented functions

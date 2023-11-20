@@ -1,5 +1,5 @@
 # Gryphon file API
-- API to send files, upload to aws s3 and return public url. For now, only sending images in base64 is supported. In the future, we will add image resizing and optimization.
+- API to send files, upload to aws s3 and return public url. For now, only sending images in base64 is supported.
 
 ## Getting started with docker-compose
 - Install docker

@@ -32,7 +32,28 @@ func CreateBase64Image(context *gin.Context) {
 		return
 	}
 
-	publicURL, err := models.SaveAsS3(input.Base64, input.Extension, user.AwsAccessKeyId, user.AwsSecretAccessKey, user.AwsRegion, user.AwsBucket)
+	image, err := models.ConvertBase64IntoImage(input.Base64)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	var byteImage []byte
+	if input.Width != 0 || input.Height != 0 {
+		resizedImage := models.ResizeImage(image, input.Width, input.Height)
+		byteImage, err = models.ConvertImageIntoByte(resizedImage, input.Extension)
+		if err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+	} else {
+		byteImage, err = models.ConvertImageIntoByte(image, input.Extension)
+		if err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+			return
+		}
+	}
+
+	publicURL, err := models.SaveAsS3(byteImage, input.Extension, user.AwsAccessKeyId, user.AwsSecretAccessKey, user.AwsRegion, user.AwsBucket)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return

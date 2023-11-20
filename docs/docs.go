@@ -650,6 +650,12 @@ const docTemplate = `{
                 },
                 "extension": {
                     "type": "string"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "width": {
+                    "type": "integer"
                 }
             }
         },

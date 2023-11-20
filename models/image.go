@@ -1,53 +1,61 @@
 package models
 
 import (
+	"bytes"
 	"encoding/base64"
 	"fmt"
-	"math/rand"
+	"image"
+	"image/gif"
+	"image/jpeg"
+	"image/png"
 	"strings"
-	"time"
 
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/disintegration/imaging"
 )
 
 type Image struct {
 	PublicURL string `gorm:"size:2048" json:"public_url"`
 }
 
-func SaveAsS3(base64Content string, extension string, awsAccessKeyId string, awsSecretAccessKey string, region string, bucket string) (string, error) {
+func ResizeImage(img image.Image, width int, height int) image.Image {
+	return imaging.Resize(img, width, height, imaging.Lanczos)
+}
+
+func ConvertBase64IntoImage(base64Content string) (image.Image, error) {
 	base64Decode, err := base64.StdEncoding.DecodeString(base64Content)
 	if err != nil {
-		return "", err
-	}
-
-	randonFileName := time.Now().Format("20060102150405") + "_" + fmt.Sprint(rand.Intn(1000000)) + "." + extension
-
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String(region),
-		Credentials: credentials.NewStaticCredentials(awsAccessKeyId, awsSecretAccessKey, ""),
-	},
-	)
-
-	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	reader := strings.NewReader(string(base64Decode))
 
-	uploader := s3manager.NewUploader(sess)
-
-	result, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket:      aws.String(bucket),
-		Key:         aws.String(randonFileName),
-		Body:        reader,
-		ContentType: aws.String("image/" + extension),
-	})
+	img, _, err := image.Decode(reader)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	return result.Location, nil
+	return img, nil
+}
+
+func ConvertBase64IntoByte(base64Content string) ([]byte, error) {
+	return base64.StdEncoding.DecodeString(base64Content)
+}
+
+func ConvertImageIntoByte(image image.Image, extension string) ([]byte, error) {
+	buf := new(bytes.Buffer)
+	var err error
+	if extension == "jpeg" || extension == "jpg" {
+		err = jpeg.Encode(buf, image, nil)
+	} else if extension == "png" {
+		err = png.Encode(buf, image)
+	} else if extension == "gif" {
+		err = gif.Encode(buf, image, nil)
+	} else {
+		return nil, fmt.Errorf("formato de imagem inválido")
+	}
+
+	if err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
 }
