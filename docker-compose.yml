@@ -8,7 +8,9 @@ services:
     container_name: go_gryphon_api
     # restart: always
     ports:
-      - "8083:8083"
+      - "${APP_PORT}:${APP_PORT}"
+    expose:
+      - "${APP_PORT}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:

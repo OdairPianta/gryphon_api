@@ -1,7 +1,7 @@
 # Release Notes
 
 ## [v0.0.0 (9999-99-99)]
-### Fixe
+### Fixed
 - Use for fixed, add thrid number, sample v0.0.1
 
 ### Changed
@@ -14,3 +14,14 @@
 ### Added
 - Project setup
 - Docker volume to persist connection
+
+## [v1.1.2 (2023-10-20)]
+### Added
+- App port environment
+- USER_AWS_BUCKET environment
+
+### Changed
+- Remove not implemented functions
+
+### Fixed
+- Port initialization with environment 

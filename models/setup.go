@@ -64,6 +64,7 @@ func createAdminUser(database *gorm.DB) {
 	user.AwsAccessKeyId = os.Getenv("USER_AWS_ACCESS_KEY_ID")
 	user.AwsSecretAccessKey = os.Getenv("USER_AWS_SECRET_ACCESS_KEY")
 	user.AwsRegion = os.Getenv("USER_AWS_REGION")
+	user.AwsBucket = os.Getenv("USER_AWS_BUCKET")
 	updateErr := database.Save(&user).Error
 	if updateErr != nil {
 		panic("Failed to create admin user!!! error:" + updateErr.Error())

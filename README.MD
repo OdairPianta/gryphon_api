@@ -6,14 +6,15 @@
 - Install docker-compose
 - Clone this project
 - Run `cp .env.example .env`
-- Open file .env and set environments. USER_EMAIL, USER_PASSWORD, USER_AWS_ACCESS_KEY_ID, USER_AWS_SECRET_ACCESS_KEY and USER_AWS_REGION is a first user. Change to your data.
+- Open file .env and set environments. USER_EMAIL, USER_PASSWORD, USER_AWS_ACCESS_KEY_ID, USER_AWS_SECRET_ACCESS_KEY, USER_AWS_REGION and USER_AWS_BUCKET is a first user. Change to your data.
+- Run `docker-compose build`
 - Run `docker-compose up`
 
 ## Getting started without docker-compose
 - Install go
 - Clone this project
 - Run `cp .env.example .env`
-- Open file .env and change environments, set your database credentials. USER_EMAIL, USER_PASSWORD, USER_AWS_ACCESS_KEY_ID, USER_AWS_SECRET_ACCESS_KEY and USER_AWS_REGION is a first user. Change to your data.
+- Open file .env and change environments, set your database credentials. USER_EMAIL, USER_PASSWORD, USER_AWS_ACCESS_KEY_ID, USER_AWS_SECRET_ACCESS_KEY, USER_AWS_REGION and USER_AWS_BUCKET is a first user. Change to your data.
 - Run `go run main.go`
 
 

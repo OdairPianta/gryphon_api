@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"os"
+
 	docs "github.com/OdairPianta/gryphon_api/docs"
 	"github.com/OdairPianta/gryphon_api/http/controllers"
 	"github.com/OdairPianta/gryphon_api/http/middlewares"
@@ -12,7 +14,7 @@ import (
 func HandleRequest() {
 	r := gin.Default()
 	InitRoutes(r)
-	r.Run(":8083")
+	r.Run(":" + os.Getenv("APP_PORT"))
 }
 
 func InitRoutes(r *gin.Engine) *gin.Engine {

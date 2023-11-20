@@ -23,6 +23,7 @@ type User struct {
 	AwsAccessKeyId     string         `gorm:"size:255" json:"aws_access_key_id"`
 	AwsSecretAccessKey string         `gorm:"size:255" json:"aws_secret_access_key"`
 	AwsRegion          string         `gorm:"size:255" json:"aws_region"`
+	AwsBucket          string         `gorm:"size:255" json:"aws_bucket"`
 }
 
 func LoginCheck(email string, password string) (string, error) {

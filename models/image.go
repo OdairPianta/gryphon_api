@@ -17,7 +17,7 @@ type Image struct {
 	PublicURL string `gorm:"size:2048" json:"public_url"`
 }
 
-func SaveAsS3(base64Content string, extension string, awsAccessKeyId string, awsSecretAccessKey string, region string) (string, error) {
+func SaveAsS3(base64Content string, extension string, awsAccessKeyId string, awsSecretAccessKey string, region string, bucket string) (string, error) {
 	base64Decode, err := base64.StdEncoding.DecodeString(base64Content)
 	if err != nil {
 		return "", err
@@ -40,7 +40,7 @@ func SaveAsS3(base64Content string, extension string, awsAccessKeyId string, aws
 	uploader := s3manager.NewUploader(sess)
 
 	result, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket:      aws.String("junges-images"),
+		Bucket:      aws.String(bucket),
 		Key:         aws.String(randonFileName),
 		Body:        reader,
 		ContentType: aws.String("image/" + extension),
