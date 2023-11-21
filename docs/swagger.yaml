@@ -75,6 +75,14 @@ definitions:
     type: object
   requests.CreateUserInput:
     properties:
+      aws_access_key_id:
+        type: string
+      aws_bucket:
+        type: string
+      aws_region:
+        type: string
+      aws_secret_access_key:
+        type: string
       email:
         type: string
       fcm_token:
@@ -86,6 +94,10 @@ definitions:
       remember_token:
         type: string
     required:
+    - aws_access_key_id
+    - aws_bucket
+    - aws_region
+    - aws_secret_access_key
     - email
     - name
     - password
@@ -126,6 +138,14 @@ definitions:
     type: object
   requests.UpdateUserInput:
     properties:
+      aws_access_key_id:
+        type: string
+      aws_bucket:
+        type: string
+      aws_region:
+        type: string
+      aws_secret_access_key:
+        type: string
       email:
         type: string
       fcm_token:
@@ -136,10 +156,6 @@ definitions:
         type: string
       remember_token:
         type: string
-    required:
-    - email
-    - name
-    - password
     type: object
 externalDocs:
   description: OpenAPI

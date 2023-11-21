@@ -665,11 +665,27 @@ const docTemplate = `{
         "requests.CreateUserInput": {
             "type": "object",
             "required": [
+                "aws_access_key_id",
+                "aws_bucket",
+                "aws_region",
+                "aws_secret_access_key",
                 "email",
                 "name",
                 "password"
             ],
             "properties": {
+                "aws_access_key_id": {
+                    "type": "string"
+                },
+                "aws_bucket": {
+                    "type": "string"
+                },
+                "aws_region": {
+                    "type": "string"
+                },
+                "aws_secret_access_key": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },
@@ -741,12 +757,19 @@ const docTemplate = `{
         },
         "requests.UpdateUserInput": {
             "type": "object",
-            "required": [
-                "email",
-                "name",
-                "password"
-            ],
             "properties": {
+                "aws_access_key_id": {
+                    "type": "string"
+                },
+                "aws_bucket": {
+                    "type": "string"
+                },
+                "aws_region": {
+                    "type": "string"
+                },
+                "aws_secret_access_key": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string"
                 },

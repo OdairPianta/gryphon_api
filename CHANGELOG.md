@@ -29,3 +29,4 @@
 
 ### Fixed
 - Port initialization with environment 
+- Create and update user

@@ -81,11 +81,15 @@ func CreateUser(context *gin.Context) {
 
 	// Create user
 	user := models.User{
-		Name:            input.Name,
-		Email:           input.Email,
-		EmailVerifiedAt: time.Now(),
-		Password:        string(hashedPassword),
-		FCMToken:        input.FCMToken,
+		Name:               input.Name,
+		Email:              input.Email,
+		EmailVerifiedAt:    time.Now(),
+		Password:           string(hashedPassword),
+		FCMToken:           input.FCMToken,
+		AwsAccessKeyId:     input.AwsAccessKeyId,
+		AwsSecretAccessKey: input.AwsSecretAccessKey,
+		AwsRegion:          input.AwsRegion,
+		AwsBucket:          input.AwsBucket,
 	}
 	resultInsert := models.DB.Create(&user)
 
