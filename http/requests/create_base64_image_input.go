@@ -5,4 +5,5 @@ type CreateBase64ImageInput struct {
 	Extension string `json:"extension" binding:"required"`
 	Width     int    `json:"width"`
 	Height    int    `json:"height"`
+	FilePath  string `json:"file_path"`
 }

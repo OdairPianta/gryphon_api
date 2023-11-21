@@ -16,9 +16,7 @@ type File struct {
 	PublicURL string `gorm:"size:2048" json:"public_url"`
 }
 
-func SaveAsS3(content []byte, extension string, awsAccessKeyId string, awsSecretAccessKey string, region string, bucket string) (string, error) {
-	randonFileName := time.Now().Format("20060102150405") + "_" + fmt.Sprint(rand.Intn(1000000)) + "." + extension
-
+func SaveAsS3(content []byte, extension string, awsAccessKeyId string, awsSecretAccessKey string, region string, bucket string, filePath string) (string, error) {
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(region),
 		Credentials: credentials.NewStaticCredentials(awsAccessKeyId, awsSecretAccessKey, ""),
@@ -35,7 +33,7 @@ func SaveAsS3(content []byte, extension string, awsAccessKeyId string, awsSecret
 
 	result, err := uploader.Upload(&s3manager.UploadInput{
 		Bucket:      aws.String(bucket),
-		Key:         aws.String(randonFileName),
+		Key:         aws.String(filePath),
 		Body:        reader,
 		ContentType: aws.String("image/" + extension),
 	})
@@ -44,4 +42,9 @@ func SaveAsS3(content []byte, extension string, awsAccessKeyId string, awsSecret
 	}
 
 	return result.Location, nil
+}
+
+func GenerateRandonFileName(extension string) string {
+	return time.Now().Format("20060102150405") + "_" + fmt.Sprint(rand.Intn(1000000)) + "." + extension
+
 }

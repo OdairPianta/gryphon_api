@@ -21,6 +21,7 @@
 - USER_AWS_BUCKET environment
 - Find users function
 - Resize image options
+- File Path option
 
 ### Changed
 - Remove not implemented functions

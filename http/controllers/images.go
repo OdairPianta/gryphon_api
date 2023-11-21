@@ -52,8 +52,14 @@ func CreateBase64Image(context *gin.Context) {
 			return
 		}
 	}
+	var filePath string
+	if input.FilePath == "" {
+		filePath = models.GenerateRandonFileName(input.Extension)
+	} else {
+		filePath = input.FilePath
+	}
 
-	publicURL, err := models.SaveAsS3(byteImage, input.Extension, user.AwsAccessKeyId, user.AwsSecretAccessKey, user.AwsRegion, user.AwsBucket)
+	publicURL, err := models.SaveAsS3(byteImage, input.Extension, user.AwsAccessKeyId, user.AwsSecretAccessKey, user.AwsRegion, user.AwsBucket, filePath)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
