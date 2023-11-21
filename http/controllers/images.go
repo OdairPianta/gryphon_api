@@ -9,7 +9,7 @@ import (
 )
 
 // @Summary		Add base64 image
-// @Description	Add base64 image
+// @Description	Add base64 image. Send file_path to save with custom name. Send Width and Height to resize.
 // @Tags			images
 // @Accept		json
 // @Produce		json

@@ -73,7 +73,7 @@ const docTemplate = `{
                         "Bearer": []
                     }
                 ],
-                "description": "Add base64 image",
+                "description": "Add base64 image. Send file_path to save with custom name. Send Width and Height to resize.",
                 "consumes": [
                     "application/json"
                 ],

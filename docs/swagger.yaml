@@ -184,7 +184,8 @@ paths:
     post:
       consumes:
       - application/json
-      description: Add base64 image
+      description: Add base64 image. Send file_path to save with custom name. Send
+        Width and Height to resize.
       parameters:
       - description: Add image
         in: body
