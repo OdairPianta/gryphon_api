@@ -14,14 +14,18 @@ import (
 
 var DB *gorm.DB
 
+func InitApp() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
+	ConnectDatabase()
+}
+
 func ConnectDatabase() {
 	if DB != nil {
 		return
-	}
-	err := godotenv.Load(".env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
 	}
 
 	// Dbdriver := os.Getenv("DB_DRIVER")

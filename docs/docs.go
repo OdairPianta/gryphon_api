@@ -651,6 +651,9 @@ const docTemplate = `{
                 "extension": {
                     "type": "string"
                 },
+                "file_path": {
+                    "type": "string"
+                },
                 "height": {
                     "type": "integer"
                 },
@@ -778,12 +781,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "0.1.1",
-	Host:             "localhost:8083",
-	BasePath:         "/api",
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Gryphon API",
-	Description:      "Gryphon API is a REST API that allows send files and manage files.",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

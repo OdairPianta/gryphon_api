@@ -25,6 +25,7 @@
 
 ### Changed
 - Remove not implemented functions
+- Init api documentation with environment
 
 ### Fixed
 - Port initialization with environment 

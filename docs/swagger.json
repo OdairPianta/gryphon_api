@@ -1,17 +1,12 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "Gryphon API is a REST API that allows send files and manage files.",
-        "title": "Gryphon API",
         "contact": {
             "name": "API Support",
             "url": "https://spotec.app/contato/",
             "email": "contact@spotec.app"
-        },
-        "version": "0.1.1"
+        }
     },
-    "host": "localhost:8083",
-    "basePath": "/api",
     "paths": {
         "/forgot_password": {
             "post": {
@@ -642,6 +637,9 @@
                     "type": "string"
                 },
                 "extension": {
+                    "type": "string"
+                },
+                "file_path": {
                     "type": "string"
                 },
                 "height": {
