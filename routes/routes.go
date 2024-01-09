@@ -35,9 +35,10 @@ func InitRoutes(r *gin.Engine) *gin.Engine {
 	protected.Use(middlewares.JwtAuthMiddleware())
 
 	protected.POST("/images/base64/create", controllers.CreateBase64Image)
+	protected.POST("/files/base64/create", controllers.CreateBase64File)
 
-	protected.GET("users", controllers.FindUsers)
-	protected.POST("users", controllers.CreateUser)
+	protected.GET("/users", controllers.FindUsers)
+	protected.POST("/users", controllers.CreateUser)
 	protected.GET("/users/:id", controllers.FindUser)
 	protected.PUT("/users/:id", controllers.UpdateUser)
 	protected.PUT("/users/:id/update_fcm_token", controllers.UpdateFcmToken)

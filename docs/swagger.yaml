@@ -17,6 +17,11 @@ definitions:
       client_status:
         type: string
     type: object
+  models.File:
+    properties:
+      public_url:
+        type: string
+    type: object
   models.Image:
     properties:
       public_url:
@@ -56,6 +61,18 @@ definitions:
         type: string
       updated_at:
         type: string
+    type: object
+  requests.CreateBase64FileInput:
+    properties:
+      base64:
+        type: string
+      extension:
+        type: string
+      file_path:
+        type: string
+    required:
+    - base64
+    - extension
     type: object
   requests.CreateBase64ImageInput:
     properties:
@@ -166,6 +183,39 @@ info:
     name: API Support
     url: https://spotec.app/contato/
 paths:
+  /files/base64/create:
+    post:
+      consumes:
+      - application/json
+      description: Add base64 file. Send file_path to save with custom name. Send
+        width and height to resize.
+      parameters:
+      - description: Add image
+        in: body
+        name: file
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CreateBase64FileInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.File'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Add base64 file
+      tags:
+      - files
   /forgot_password:
     post:
       consumes:
@@ -196,7 +246,7 @@ paths:
       summary: Forgot password
       tags:
       - users
-  /images:
+  /images/base64/create:
     post:
       consumes:
       - application/json

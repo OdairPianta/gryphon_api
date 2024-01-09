@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -15,12 +17,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-faker/faker/v4"
 	"github.com/go-faker/faker/v4/pkg/options"
+	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func setupDatabase() (*gorm.DB, func()) {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
 	models.ConnectDatabase()
 	tx := models.DB.Begin()
 
@@ -324,6 +331,34 @@ func TestUserCreateBase64Image(t *testing.T) {
 		"file_path": "test/test.jpg"
 	}`)
 	request, _ := http.NewRequest("POST", "/api/images/base64/create", bytes.NewBuffer(data))
+	request.Header.Set("Authorization", "Bearer "+token)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	fmt.Println(recorder.Body.String())
+
+	assert.Equal(t, http.StatusOK, recorder.Code, "OK response is expected")
+}
+
+func TestFileCreateBase64Pdf(t *testing.T) {
+	setupDatabase()
+	router := routesSetup()
+
+	var user models.User
+	models.DB.First(&user, "email = ?", os.Getenv("USER_EMAIL"))
+	token, errToken := token.GenerateToken(user.ID)
+	assert.Nil(t, errToken)
+
+	fileBytes, err := os.ReadFile("docs/tapa_na_pantera_desciclopedia.pdf")
+	assert.Nil(t, err)
+	fileBase64 := base64.StdEncoding.EncodeToString(fileBytes)
+
+	data := []byte(`{
+		"base64": "` + fileBase64 + `",
+		"extension": "pdf"
+	}`)
+	request, _ := http.NewRequest("POST", "/api/files/base64/create", bytes.NewBuffer(data))
 	request.Header.Set("Authorization", "Bearer "+token)
 	recorder := httptest.NewRecorder()
 

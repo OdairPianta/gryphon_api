@@ -8,6 +8,57 @@
         }
     },
     "paths": {
+        "/files/base64/create": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Add base64 file. Send file_path to save with custom name. Send width and height to resize.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "files"
+                ],
+                "summary": "Add base64 file",
+                "parameters": [
+                    {
+                        "description": "Add image",
+                        "name": "file",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.CreateBase64FileInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.File"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/models.APIError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/models.APIError"
+                        }
+                    }
+                }
+            }
+        },
         "/forgot_password": {
             "post": {
                 "description": "Forgot password by json user",
@@ -54,7 +105,7 @@
                 }
             }
         },
-        "/images": {
+        "/images/base64/create": {
             "post": {
                 "security": [
                     {
@@ -565,6 +616,14 @@
                 }
             }
         },
+        "models.File": {
+            "type": "object",
+            "properties": {
+                "public_url": {
+                    "type": "string"
+                }
+            }
+        },
         "models.Image": {
             "type": "object",
             "properties": {
@@ -622,6 +681,24 @@
                     "type": "string"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "requests.CreateBase64FileInput": {
+            "type": "object",
+            "required": [
+                "base64",
+                "extension"
+            ],
+            "properties": {
+                "base64": {
+                    "type": "string"
+                },
+                "extension": {
+                    "type": "string"
+                },
+                "file_path": {
                     "type": "string"
                 }
             }

@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/base64"
 	"fmt"
 	"math/rand"
 	"strings"
@@ -47,4 +48,8 @@ func SaveAsS3(content []byte, extension string, awsAccessKeyId string, awsSecret
 func GenerateRandonFileName(extension string) string {
 	return time.Now().Format("20060102150405") + "_" + fmt.Sprint(rand.Intn(1000000)) + "." + extension
 
+}
+
+func ConvertBase64IntoByte(base64Content string) ([]byte, error) {
+	return base64.StdEncoding.DecodeString(base64Content)
 }

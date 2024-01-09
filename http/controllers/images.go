@@ -17,7 +17,7 @@ import (
 // @Success		200		{object}	models.Image
 // @Failure 400 {object} models.APIError "Bad request"
 // @Failure 404 {object} models.APIError "Not found"
-// @Router			/images [post]
+// @Router			/images/base64/create [post]
 // @Security Bearer
 func CreateBase64Image(context *gin.Context) {
 	var input requests.CreateBase64ImageInput

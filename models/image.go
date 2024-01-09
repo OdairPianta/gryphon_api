@@ -37,10 +37,6 @@ func ConvertBase64IntoImage(base64Content string) (image.Image, error) {
 	return img, nil
 }
 
-func ConvertBase64IntoByte(base64Content string) ([]byte, error) {
-	return base64.StdEncoding.DecodeString(base64Content)
-}
-
 func ConvertImageIntoByte(image image.Image, extension string) ([]byte, error) {
 	buf := new(bytes.Buffer)
 	var err error

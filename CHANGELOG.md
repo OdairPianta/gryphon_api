@@ -30,3 +30,10 @@
 ### Fixed
 - Port initialization with environment 
 - Create and update user
+
+## [v1.2.1 (2023-10-20)]
+### Added
+- Create base 64 file function
+
+### Fixed
+- User routes
