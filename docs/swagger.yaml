@@ -90,6 +90,126 @@ definitions:
     - base64
     - extension
     type: object
+  requests.CreateChartRadar:
+    properties:
+      Indicators:
+        items:
+          properties:
+            color:
+              example: '#000000'
+              type: string
+            max:
+              example: 100
+              type: number
+            min:
+              example: 0
+              type: number
+            name:
+              example: Level 1
+              type: string
+          required:
+          - color
+          - max
+          - min
+          - name
+          type: object
+        type: array
+      MultiSeries:
+        items:
+          properties:
+            data:
+              items:
+                properties:
+                  name:
+                    example: Level
+                    type: string
+                  value:
+                    items:
+                      type: number
+                    type: array
+                required:
+                - name
+                - value
+                type: object
+              type: array
+            itemStyle:
+              properties:
+                color:
+                  example: rgba(47, 85, 220, 0.2)
+                  type: string
+              required:
+              - color
+              type: object
+            name:
+              example: TARGET
+              type: string
+          required:
+          - data
+          - itemStyle
+          - name
+          type: object
+        type: array
+      backgroundColor:
+        example: '#ffffff'
+        type: string
+      height:
+        example: 500px
+        type: string
+      legend:
+        properties:
+          data:
+            example:
+            - TARGET
+            - RESULT
+            items:
+              type: string
+            type: array
+          show:
+            example: true
+            type: boolean
+        required:
+        - data
+        - show
+        type: object
+      splitLine:
+        properties:
+          lineStyle:
+            properties:
+              color:
+                example: '#595757'
+                type: string
+              opacity:
+                example: 0.5
+                type: number
+              type:
+                example: solid
+                type: string
+            required:
+            - color
+            - opacity
+            - type
+            type: object
+          show:
+            example: true
+            type: boolean
+        required:
+        - lineStyle
+        - show
+        type: object
+      splitNumber:
+        example: 5
+        type: integer
+      width:
+        example: 900px
+        type: string
+    required:
+    - Indicators
+    - MultiSeries
+    - backgroundColor
+    - legend
+    - splitLine
+    - splitNumber
+    type: object
   requests.CreateUserInput:
     properties:
       aws_access_key_id:
@@ -183,6 +303,38 @@ info:
     name: API Support
     url: https://spotec.app/contato/
 paths:
+  /charts/radar/create:
+    post:
+      consumes:
+      - application/json
+      description: Generate a radar chart
+      parameters:
+      - description: Request body to generate a radar chart
+        in: body
+        name: chart
+        required: true
+        schema:
+          $ref: '#/definitions/requests.CreateChartRadar'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.File'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/models.APIError'
+        "404":
+          description: Not found
+          schema:
+            $ref: '#/definitions/models.APIError'
+      security:
+      - Bearer: []
+      summary: Generate a radar chart
+      tags:
+      - charts
   /files/base64/create:
     post:
       consumes:

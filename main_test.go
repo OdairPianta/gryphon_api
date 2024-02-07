@@ -368,3 +368,58 @@ func TestFileCreateBase64Pdf(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, recorder.Code, "OK response is expected")
 }
+
+func TestChartRadar(t *testing.T) {
+	setupDatabase()
+	router := routesSetup()
+
+	var user models.User
+	models.DB.First(&user, "email = ?", os.Getenv("USER_EMAIL"))
+	token, errToken := token.GenerateToken(user.ID)
+	assert.Nil(t, errToken)
+
+	data := []byte(`{
+		"backgroundColor": "#FFFFFF",
+		"width": "900px",
+		"height": "500px",
+		"legend": { "show": true, "data": ["TARGET", "RESULT"] },
+		"MultiSeries": [
+			{
+				"name": "TARGET",
+				"data": [{ "name": "Level", "value": [85, 85, 85, 85, 85] }],
+				"itemStyle": { "color": "rgba(47, 85, 220, 0.2)" }
+			},
+			{
+				"name": "RESULT",
+				"data": [{ "name": "Level", "value": [64.4, 60.6, 43.8, 25, 39.6] }],
+				"itemStyle": { "color": "rgba(47, 85, 220, 0.5)" }
+			}
+		],
+		"Indicators": [
+			{"name": "LEVEL 1 - TEST", "min": 0, "max": 100, "color": "#000000"},
+			{"name": "LEVEL 2 - TEST", "min": 0, "max": 100, "color": "#000000"},
+			{"name": "LEVEL 3 - TEST", "min": 0, "max": 100, "color": "#000000"},
+			{"name": "LEVEL 4 - TEST", "min": 0, "max": 100, "color": "#000000"},
+			{"name": "LEVEL 5 - TEST", "min": 0, "max": 100, "color": "#000000"}
+  	],
+		"SplitNumber": 5,
+		"splitLine": {
+			"show": true,
+			"lineStyle": {
+				"opacity": 0.5,
+				"color": "#595757",
+				"type": "solid"
+			}
+		}
+	}`)
+
+	request, _ := http.NewRequest("POST", "/api/charts/radar/create", bytes.NewBuffer(data))
+	request.Header.Set("Authorization", "Bearer "+token)
+	recorder := httptest.NewRecorder()
+
+	router.ServeHTTP(recorder, request)
+
+	fmt.Println(recorder.Body.String())
+
+	assert.Equal(t, http.StatusOK, recorder.Code, "OK response is expected")
+}

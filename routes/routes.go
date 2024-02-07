@@ -44,5 +44,7 @@ func InitRoutes(r *gin.Engine) *gin.Engine {
 	protected.PUT("/users/:id/update_fcm_token", controllers.UpdateFcmToken)
 	protected.DELETE("/users/:id", controllers.DeleteUser)
 
+	protected.POST("/charts/radar/create", controllers.CreateChartRadar)
+
 	return r
 }

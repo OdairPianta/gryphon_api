@@ -37,3 +37,7 @@
 
 ### Fixed
 - User routes
+
+## [v1.3.0 (2023-02-06)]
+### Added
+- Create chart radar function

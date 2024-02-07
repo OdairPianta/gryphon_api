@@ -8,6 +8,57 @@
         }
     },
     "paths": {
+        "/charts/radar/create": {
+            "post": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "Generate a radar chart",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "charts"
+                ],
+                "summary": "Generate a radar chart",
+                "parameters": [
+                    {
+                        "description": "Request body to generate a radar chart",
+                        "name": "chart",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.CreateChartRadar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.File"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/models.APIError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "$ref": "#/definitions/models.APIError"
+                        }
+                    }
+                }
+            }
+        },
         "/files/base64/create": {
             "post": {
                 "security": [
@@ -724,6 +775,174 @@
                 },
                 "width": {
                     "type": "integer"
+                }
+            }
+        },
+        "requests.CreateChartRadar": {
+            "type": "object",
+            "required": [
+                "Indicators",
+                "MultiSeries",
+                "backgroundColor",
+                "legend",
+                "splitLine",
+                "splitNumber"
+            ],
+            "properties": {
+                "Indicators": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "color",
+                            "max",
+                            "min",
+                            "name"
+                        ],
+                        "properties": {
+                            "color": {
+                                "type": "string",
+                                "example": "#000000"
+                            },
+                            "max": {
+                                "type": "number",
+                                "example": 100
+                            },
+                            "min": {
+                                "type": "number",
+                                "example": 0
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Level 1"
+                            }
+                        }
+                    }
+                },
+                "MultiSeries": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "data",
+                            "itemStyle",
+                            "name"
+                        ],
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "name",
+                                        "value"
+                                    ],
+                                    "properties": {
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Level"
+                                        },
+                                        "value": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "itemStyle": {
+                                "type": "object",
+                                "required": [
+                                    "color"
+                                ],
+                                "properties": {
+                                    "color": {
+                                        "type": "string",
+                                        "example": "rgba(47, 85, 220, 0.2)"
+                                    }
+                                }
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "TARGET"
+                            }
+                        }
+                    }
+                },
+                "backgroundColor": {
+                    "type": "string",
+                    "example": "#ffffff"
+                },
+                "height": {
+                    "type": "string",
+                    "example": "500px"
+                },
+                "legend": {
+                    "type": "object",
+                    "required": [
+                        "data",
+                        "show"
+                    ],
+                    "properties": {
+                        "data": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "example": [
+                                "TARGET",
+                                "RESULT"
+                            ]
+                        },
+                        "show": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                },
+                "splitLine": {
+                    "type": "object",
+                    "required": [
+                        "lineStyle",
+                        "show"
+                    ],
+                    "properties": {
+                        "lineStyle": {
+                            "type": "object",
+                            "required": [
+                                "color",
+                                "opacity",
+                                "type"
+                            ],
+                            "properties": {
+                                "color": {
+                                    "type": "string",
+                                    "example": "#595757"
+                                },
+                                "opacity": {
+                                    "type": "number",
+                                    "example": 0.5
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "example": "solid"
+                                }
+                            }
+                        },
+                        "show": {
+                            "type": "boolean",
+                            "example": true
+                        }
+                    }
+                },
+                "splitNumber": {
+                    "type": "integer",
+                    "example": 5
+                },
+                "width": {
+                    "type": "string",
+                    "example": "900px"
                 }
             }
         },
