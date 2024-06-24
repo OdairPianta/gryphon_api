@@ -6,7 +6,7 @@ services:
       context: .
     image: golang
     container_name: go_gryphon_api
-    # restart: always
+    restart: always
     ports:
       - "${APP_PORT}:${APP_PORT}"
     expose:
