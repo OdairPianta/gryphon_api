@@ -13,31 +13,31 @@ services:
       - "${APP_PORT}"
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    depends_on:
-      db:
-        condition: service_healthy
-    links:
-      - db
+    # depends_on:
+    #   db:
+    #     condition: service_healthy
+    # links:
+    #   - db
 
-  db:
-    image: mysql:5.7
-    restart: always
-    environment:
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_TCP_PORT: ${DB_PORT}
-    ports:
-      - '${DB_PORT}:${DB_PORT}'
-    expose:
-      - '${DB_PORT}'
-    volumes:
-      - my-db:/var/lib/mysql
-    healthcheck:
-          test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-          timeout: 20s
-          retries: 10
+#   db:
+#     image: mysql:5.7
+#     restart: always
+#     environment:
+#       MYSQL_DATABASE: ${DB_NAME}
+#       MYSQL_USER: ${DB_USER}
+#       MYSQL_PASSWORD: ${DB_PASSWORD}
+#       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+#       MYSQL_TCP_PORT: ${DB_PORT}
+#     ports:
+#       - '${DB_PORT}:${DB_PORT}'
+#     expose:
+#       - '${DB_PORT}'
+#     volumes:
+#       - my-db:/var/lib/mysql
+#     healthcheck:
+#           test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+#           timeout: 20s
+#           retries: 10
 
-volumes:
-  my-db:
+# volumes:
+#   my-db:

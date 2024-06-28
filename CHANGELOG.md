@@ -41,3 +41,8 @@
 ## [v1.3.0 (2023-02-06)]
 ### Added
 - Create chart radar function
+
+## [v1.3.1 (2024-06-24)]
+### Changed
+- Restart always in docker-compose file
+- Remove db in docker compose
