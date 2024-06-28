@@ -46,3 +46,7 @@
 ### Changed
 - Restart always in docker-compose file
 - Remove db in docker compose
+
+## [v1.3.2 (2024-06-24)]
+### Fixed
+- Report file error in chart controller

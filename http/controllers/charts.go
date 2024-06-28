@@ -88,11 +88,23 @@ func CreateChartRadar(context *gin.Context) {
 	var filePathHtml = models.GenerateRandonFileName("html")
 	var filePathPng = models.GenerateRandonFileName("png")
 
-	f, _ := os.Create("temp/" + filePathHtml)
+	f, err := os.Create("temp/" + filePathHtml)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Error creating file: " + "temp/" + filePathHtml + " " + err.Error()})
+		return
+	}
 	radar.Render(f)
-	readFile, _ := os.ReadFile("temp/" + filePathHtml)
+	readFile, err := os.ReadFile("temp/" + filePathHtml)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Error reading file: " + "temp/" + filePathHtml + " " + err.Error()})
+		return
+	}
 	render.MakeChartSnapshot(readFile, "temp/"+filePathPng)
-	byteFile, _ := os.ReadFile("temp/" + filePathPng)
+	byteFile, err := os.ReadFile("temp/" + filePathPng)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Error reading file: " + "temp/" + filePathPng + " " + err.Error()})
+		return
+	}
 
 	publicURL, err := models.SaveAsS3(byteFile, "png", user.AwsAccessKeyId, user.AwsSecretAccessKey, user.AwsRegion, user.AwsBucket, filePathPng)
 	if err != nil {
