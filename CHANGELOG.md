@@ -50,3 +50,4 @@
 ## [v1.3.2 (2024-06-24)]
 ### Fixed
 - Report file error in chart controller
+- Report error when make snapshot

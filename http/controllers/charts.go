@@ -5,6 +5,7 @@ package controllers
 import (
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/OdairPianta/gryphon_api/http/requests"
 	"github.com/OdairPianta/gryphon_api/models"
@@ -99,7 +100,13 @@ func CreateChartRadar(context *gin.Context) {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Error reading file: " + "temp/" + filePathHtml + " " + err.Error()})
 		return
 	}
-	render.MakeChartSnapshot(readFile, "temp/"+filePathPng)
+
+	err = makeChartSnapshot(readFile, "temp/"+filePathPng)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"message": "Error creating snapshot: " + err.Error()})
+		return
+	}
+
 	byteFile, err := os.ReadFile("temp/" + filePathPng)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{"message": "Error reading file: " + "temp/" + filePathPng + " " + err.Error()})
@@ -117,4 +124,20 @@ func CreateChartRadar(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, model)
+}
+
+func makeChartSnapshot(content []byte, image string) error {
+	path, file := filepath.Split(image)
+	suffix := filepath.Ext(file)[1:]
+	fileName := file[0 : len(file)-len(suffix)-1]
+
+	config := &render.SnapshotConfig{
+		RenderContent: content,
+		Path:          path,
+		FileName:      fileName,
+		Suffix:        suffix,
+		Quality:       1,
+		KeepHtml:      false,
+	}
+	return render.MakeSnapshot(config)
 }
