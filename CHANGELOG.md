@@ -47,7 +47,10 @@
 - Restart always in docker-compose file
 - Remove db in docker compose
 
-## [v1.3.2 (2024-06-24)]
+## [v1.4.1 (2024-06-24)]
 ### Fixed
 - Report file error in chart controller
 - Report error when make snapshot
+
+### Added
+- Install google chrome
